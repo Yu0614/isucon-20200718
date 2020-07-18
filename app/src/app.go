@@ -9,7 +9,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/securecookie"
-	"github.com/gomarkdown/markdown"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -19,7 +18,7 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
-
+	"github.com/russross/blackfriday"
 	_ "net/http/pprof"
 )
 
@@ -92,7 +91,8 @@ var (
 		},
 		"gen_markdown": func(s string) template.HTML {
 			md := []byte(s)
-			out := markdown.ToHTML(md, nil, nil)
+			out := blackfriday.MarkdownBasic(md)
+			// out := markdown.ToHTML(md, nil, nil)
 			return template.HTML(out)
 		},
 	}
