@@ -380,12 +380,6 @@ func signinPostHandler(w http.ResponseWriter, r *http.Request) {
 				serverError(w, err)
 				return
 			}
-			if _, err := dbConn.Exec("UPDATE users SET last_access=now() WHERE id=?", user.Id); err != nil {
-				serverError(w, err)
-				return
-			} else {
-				http.Redirect(w, r, "/mypage", http.StatusFound)
-			}
 			return
 		}
 	}
