@@ -19,7 +19,6 @@ import (
 	"strconv"
 	"strings"
 	"github.com/russross/blackfriday"
-	_ "net/http/pprof"
 )
 
 const (
@@ -100,14 +99,6 @@ var (
 )
 
 func main() {
-	// pprof start
-	runtime.SetBlockProfileRate(1)
-	runtime.SetMutexProfileFraction(1)
-	go func() {
-		log.Println(http.ListenAndServe("0.0.0.0:6060", nil))
-	}()
-	// prof end
-
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
 	env := os.Getenv("ISUCON_ENV")
