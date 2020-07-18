@@ -181,13 +181,13 @@ func getUser(w http.ResponseWriter, r *http.Request, dbConn *sql.DB, session *se
 		return nil
 	}
 	user := &User{}
-	rows, err := dbConn.Query("SELECT id , username, password, salt, last_access FROM users WHERE id=?", userId)
+	rows, err := dbConn.Query("SELECT id , username, password, salt FROM users WHERE id=?", userId)
 	if err != nil {
 		serverError(w, err)
 		return nil
 	}
 	if rows.Next() {
-		rows.Scan(&user.Id, &user.Username, &user.Password, &user.Salt, &user.LastAccess)
+		rows.Scan(&user.Id, &user.Username, &user.Password, &user.Salt)
 		rows.Close()
 	}
 	if user != nil {
@@ -334,10 +334,10 @@ func signinHandler(w http.ResponseWriter, r *http.Request) {
 	defer func() {
 		dbConnPool <- dbConn
 	}()
-	user := getUser(w, r, dbConn, session)
+	user := getUser(w, r, dbConn, session)//消せそう
 
 	v := &View{
-		User:    user,
+		User:    user, //消せそう
 		Session: session,
 	}
 	if err := tmpl.ExecuteTemplate(w, "signin", v); err != nil {
