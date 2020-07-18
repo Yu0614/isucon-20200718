@@ -227,7 +227,7 @@ func topHandler(w http.ResponseWriter, r *http.Request) {
 	defer func() {
 		dbConnPool <- dbConn
 	}()
-	user := getUser(w, r, dbConn, session)
+	//user := getUser(w, r, dbConn, session)
 
 	var totalCount int
 	rows, err := dbConn.Query("SELECT count(id) AS c FROM memos WHERE is_private=0")
@@ -259,7 +259,7 @@ func topHandler(w http.ResponseWriter, r *http.Request) {
 		PageStart: 1,
 		PageEnd:   memosPerPage,
 		Memos:     &memos,
-		User:      user,
+		//User:      user,
 		Session:   session,
 	}
 	if err = tmpl.ExecuteTemplate(w, "index", v); err != nil {
@@ -278,7 +278,7 @@ func recentHandler(w http.ResponseWriter, r *http.Request) {
 	defer func() {
 		dbConnPool <- dbConn
 	}()
-	user := getUser(w, r, dbConn, session)
+	//user := getUser(w, r, dbConn, session)
 	vars := mux.Vars(r)
 	page, _ := strconv.Atoi(vars["page"])
 
@@ -315,7 +315,7 @@ func recentHandler(w http.ResponseWriter, r *http.Request) {
 		PageStart: memosPerPage*page + 1,
 		PageEnd:   memosPerPage * (page + 1),
 		Memos:     &memos,
-		User:      user,
+		//User:      user,
 		Session:   session,
 	}
 	if err = tmpl.ExecuteTemplate(w, "index", v); err != nil {
@@ -334,10 +334,10 @@ func signinHandler(w http.ResponseWriter, r *http.Request) {
 	defer func() {
 		dbConnPool <- dbConn
 	}()
-	user := getUser(w, r, dbConn, session)
+	//user := getUser(w, r, dbConn, session)//消せそう
 
 	v := &View{
-		User:    user,
+	//	User:    user, //消せそう
 		Session: session,
 	}
 	if err := tmpl.ExecuteTemplate(w, "signin", v); err != nil {
@@ -443,7 +443,7 @@ func mypageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	v := &View{
 		Memos:   &memos,
-		User:    user,
+		//User:    user,
 		Session: session,
 	}
 	if err = tmpl.ExecuteTemplate(w, "mypage", v); err != nil {
@@ -527,7 +527,7 @@ func memoHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	v := &View{
-		User:    user,
+		//User:    user,
 		Memo:    memo,
 		Older:   older,
 		Newer:   newer,
