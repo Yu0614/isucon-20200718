@@ -443,7 +443,7 @@ func mypageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	v := &View{
 		Memos:   &memos,
-		//User:    user,
+		User:    user,
 		Session: session,
 	}
 	if err = tmpl.ExecuteTemplate(w, "mypage", v); err != nil {
